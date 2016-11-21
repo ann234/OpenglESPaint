@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
     private Button btnLeft;
     private Button btnRight;
     //SeekBar for changing color(R, G, B)
-    private SeekBar BarR;
+    private SeekBar BarR, BarG, BarB;
 
     private boolean isImageOn;
     private vector3 color;
@@ -70,6 +70,8 @@ public class MainActivity extends Activity {
 
         //RGB Seekbar
         BarR = (SeekBar)findViewById(R.id.BarR);
+        BarG = (SeekBar)findViewById(R.id.BarG);
+        BarB = (SeekBar)findViewById(R.id.BarB);
         BarR.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -78,14 +80,36 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar) {}
 
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+        BarG.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                color.x = progress;
+                ((TextView)findViewById(R.id.TextGreen)).setText(Float.toString(color.y));
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar) {}
 
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+        BarB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                color.x = progress;
+                ((TextView)findViewById(R.id.TextBlue)).setText(Float.toString(color.z));
             }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 

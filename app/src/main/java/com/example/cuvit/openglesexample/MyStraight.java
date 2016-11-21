@@ -65,17 +65,18 @@ public class MyStraight implements  Figure{
             //set vertex array
             gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
             //set color array
-            gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
+            //gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
 
             //turn on vertex, color array usage
-            gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+            //gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
             gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
             {
+                gl.glColor4f(colors.x, colors.y, colors.z, 0);
                 //draw lines
                 gl.glDrawArrays(GL10.GL_LINES, 0, verticeArray.length / 2);
             }
 
-            gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+            //gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
             gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
         }
     }
