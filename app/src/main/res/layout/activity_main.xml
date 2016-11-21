@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:text="안드로이드  화면 분활 \n화면의 일부영역에 OpenGL ES 화면 넣기입니다."
         />
+
     <LinearLayout
         android:id="@+id/menuLayout"
         android:layout_width="wrap_content"
@@ -27,48 +28,49 @@
             android:src="@drawable/tank"
             android:scaleType="center"
             />
-        <Button
-            android:id="@+id/ButtonLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="ButtonLeft"/>
 
-        <TextView
-            android:id="@+id/TextRed"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="R = 0"/>
-        <SeekBar
-        android:id="@+id/BarR"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"/>
+            android:orientation="vertical"
+            android:layout_margin="5dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Set Color"/>
 
-        <TextView
-            android:id="@+id/TextGreen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="G = 0"/>
-        <SeekBar
-            android:id="@+id/BarG"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/TextRed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="R = 0"/>
+            <SeekBar
+                android:id="@+id/BarR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/TextBlue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="B = 0"/>
-        <SeekBar
-            android:id="@+id/BarB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/TextGreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="G = 0"/>
+            <SeekBar
+                android:id="@+id/BarG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/TextBlue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="B = 0"/>
+            <SeekBar
+                android:id="@+id/BarB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>

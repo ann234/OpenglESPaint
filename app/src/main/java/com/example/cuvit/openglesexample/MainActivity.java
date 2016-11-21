@@ -75,8 +75,8 @@ public class MainActivity extends Activity {
         BarR.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                color.x = progress;
-                ((TextView)findViewById(R.id.TextRed)).setText(Float.toString(color.x));
+                color.x = (float)progress / 100;
+                ((TextView)findViewById(R.id.TextRed)).setText("R : " + Float.toString(color.x * 100));
             }
 
             @Override
@@ -88,8 +88,8 @@ public class MainActivity extends Activity {
         BarG.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                color.x = progress;
-                ((TextView)findViewById(R.id.TextGreen)).setText(Float.toString(color.y));
+                color.y = (float)progress / 100;
+                ((TextView)findViewById(R.id.TextGreen)).setText("G : " + Float.toString(color.y * 100));
             }
 
             @Override
@@ -101,8 +101,8 @@ public class MainActivity extends Activity {
         BarB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                color.x = progress;
-                ((TextView)findViewById(R.id.TextBlue)).setText(Float.toString(color.z));
+                color.z = (float)progress / 100;
+                ((TextView)findViewById(R.id.TextBlue)).setText("B : " + Float.toString(color.z * 100));
             }
 
             @Override
@@ -126,7 +126,7 @@ public class MainActivity extends Activity {
         initValue();
         initView();
 
-        curDrawType = FIGURE_TYPE.FIGURE_STRAIGHT;
+        curDrawType = FIGURE_TYPE.FIGURE_PENCIL;
 
         mGLView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -167,17 +167,31 @@ public class MainActivity extends Activity {
                             mGLView.queueEvent(new Runnable(){
                                 public void run()
                                 {
-                                    if(curDrawType == FIGURE_TYPE.FIGURE_STRAIGHT)
+                                    //make new figure object
+                                    Figure newFigure;
+                                    switch(curDrawType)
                                     {
-                                        //make new straight and init first and last coordinate
-                                        Figure newFigure = new MyStraight(new vector3(normalizedX, normalizedY, 0),
-                                                new vector3(normalizedX, normalizedY, 0), color);
+                                        case FIGURE_PENCIL:
+                                            //make new Pencil
+                                            newFigure = new MyPencil(new vector3(normalizedX, normalizedY, 0), color);
 
-                                        //add straight to figure list
-                                        myGLRenderer.addFigure(newFigure);
+                                            //add pencil to figure list
+                                            myGLRenderer.addFigure(newFigure);
 
-                                        Log.i("Axis", "x : " + String.valueOf(normalizedX));
-                                        Log.i("Axis", "y : " + String.valueOf(normalizedY));
+                                            Log.i("Axis", "x : " + String.valueOf(normalizedX));
+                                            Log.i("Axis", "y : " + String.valueOf(normalizedY));
+                                            break;
+                                        case FIGURE_STRAIGHT:
+                                            //make new straight and init first and last coordinate
+                                            newFigure = new MyStraight(new vector3(normalizedX, normalizedY, 0),
+                                                    new vector3(normalizedX, normalizedY, 0), color);
+
+                                            //add straight to figure list
+                                            myGLRenderer.addFigure(newFigure);
+
+                                            Log.i("Axis", "x : " + String.valueOf(normalizedX));
+                                            Log.i("Axis", "y : " + String.valueOf(normalizedY));
+                                            break;
                                     }
                                     //mGLView.getRenderer().getCoordinateByDown(normalizedX, normalizedY);
                                 }
@@ -187,21 +201,24 @@ public class MainActivity extends Activity {
                             mGLView.queueEvent(new Runnable(){
                                 public void run()
                                 {
-                                    if(curDrawType == FIGURE_TYPE.FIGURE_STRAIGHT) {
-                                        //get figure's tail figure = tail figure is current figure
-                                        MyStraight figure = (MyStraight)myGLRenderer.getTailFigure();
+                                    switch(curDrawType)
+                                    {
+                                        case FIGURE_PENCIL:
+                                            //add new vertex
+                                            MyPencil pFigure = (MyPencil)myGLRenderer.getTailFigure();
 
-                                        //change straight's last point if move the mouse
-                                        figure.vertices[1] = new vector3(normalizedX, normalizedY, 0);
+                                            pFigure.addVertex(new vector3(normalizedX, normalizedY, 0));
+                                            break;
+                                        case FIGURE_STRAIGHT:
+                                            //get figure's tail figure = tail figure is current figure
+                                            MyStraight sFigure = (MyStraight)myGLRenderer.getTailFigure();
 
-                                        //refresh figure's vertex buffer
-                                        figure.renewalVBuffer();
+                                            //change straight's last point if move the mouse
+                                            sFigure.vertices[1] = new vector3(normalizedX, normalizedY, 0);
 
-                                        //get renderer and send coordinate x, y
-                                        //mGLView.getRenderer().getCoordinateByDrag(normalizedX, normalizedY);
-
-                                        //Log.i("Axis", "x : " + String.valueOf(normalizedX));
-                                        //Log.i("Axis", "y : " + String.valueOf(normalizedY));
+                                            //refresh figure's vertex buffer
+                                            sFigure.renewalVBuffer();
+                                            break;
                                     }
                                 }
                             });

@@ -16,4 +16,9 @@ public class vector3 {
     {
         x = _x; y = _y; z = _z;
     }
+
+    public vector3(vector3 _vec)
+    {
+        x = _vec.x; y = _vec.y; z = _vec.z;
+    }
 }
