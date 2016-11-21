@@ -41,9 +41,7 @@ public class MyStraight implements  Figure{
         };
 
         colorArray = new float[]{
-                colors.x, 0.0f, 0.0f, 1.0f,
-                0.0f, colors.y, 0.0f, 1.0f,
-                0.0f, 0.0f, colors.z, 1.0f
+                colors.x, 0.0f, 0.0f, 1.0f
         };
 
         ByteBuffer byteBuf = ByteBuffer.allocateDirect(verticeArray.length * 4);
@@ -77,8 +75,8 @@ public class MyStraight implements  Figure{
                 gl.glDrawArrays(GL10.GL_LINES, 0, verticeArray.length / 2);
             }
 
-            gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
             gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+            gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
         }
     }
 }

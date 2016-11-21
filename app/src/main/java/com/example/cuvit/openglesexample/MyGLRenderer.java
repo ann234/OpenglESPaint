@@ -65,8 +65,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         gl.glTranslatef(0.0f, 0.0f, -6.0f);
         gl.glRotatef(mAngle, 0, 0, 1);
         mAngle += 1.0f;
-        tr.draw(gl);
-        st.draw(gl);
+        //tr.draw(gl);
+        //st.draw(gl);
     }
 
     @Override

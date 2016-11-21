@@ -8,7 +8,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 enum FIGURE_TYPE
 {
@@ -17,12 +21,73 @@ enum FIGURE_TYPE
     FIGURE_PENCIL
 }
 
+enum COLOR
+{
+    COLOR_RED,
+    COLOR_GREEN,
+    COLOR_BLUE
+}
+
 public class MainActivity extends Activity {
     private GLSurfaceView mGLView;
     private MyGLRenderer myGLRenderer;
     private FIGURE_TYPE curDrawType;
+    private LinearLayout menuLayout;
+
+    private Button btnLeft;
+    private Button btnRight;
+    //SeekBar for changing color(R, G, B)
+    private SeekBar BarR;
 
     private boolean isImageOn;
+    private vector3 color;
+
+    private void initValue()
+    {
+        color = new vector3(0, 0, 0);
+    }
+
+    private void initView()
+    {
+        mGLView = new GLSurfaceView(this);
+        myGLRenderer = new MyGLRenderer();
+        mGLView.setRenderer(myGLRenderer);
+
+        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frameLayout);
+        frameLayout.addView(mGLView, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        //get menulayout and
+        menuLayout = (LinearLayout)findViewById(R.id.menuLayout);
+        menuLayout.bringToFront();
+        menuLayout.invalidate();
+        //turn off
+        isImageOn = true;
+
+        //get menulayout's button
+        /*btnLeft = (Button)findViewById(R.id.ButtonLeft);
+        btnRight = (Button)findViewById(R.id.ButtonRight);*/
+
+        //RGB Seekbar
+        BarR = (SeekBar)findViewById(R.id.BarR);
+        BarR.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                color.x = progress;
+                ((TextView)findViewById(R.id.TextRed)).setText(Float.toString(color.x));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +99,8 @@ public class MainActivity extends Activity {
         /*mGLView = new MyGLSurfaceView(this);
         setContentView(mGLView);*/
 
-        mGLView = new GLSurfaceView(this);
-        myGLRenderer = new MyGLRenderer();
-        mGLView.setRenderer(myGLRenderer);
-
-        isImageOn = false;
-
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frameLayout);
-        frameLayout.addView(mGLView, new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        findViewById(R.id.imageView01).bringToFront();
-        findViewById(R.id.imageView01).invalidate();
+        initValue();
+        initView();
 
         curDrawType = FIGURE_TYPE.FIGURE_STRAIGHT;
 
@@ -79,9 +134,9 @@ public class MainActivity extends Activity {
                             {
                                 isImageOn = !isImageOn;
                                 if(isImageOn)
-                                    findViewById(R.id.imageView01).setVisibility(View.VISIBLE);
+                                    menuLayout.setVisibility(View.VISIBLE);
                                 else
-                                    findViewById(R.id.imageView01).setVisibility(View.INVISIBLE);
+                                    menuLayout.setVisibility(View.INVISIBLE);
                             }
                             break;
                         case MotionEvent.ACTION_DOWN:
@@ -92,7 +147,7 @@ public class MainActivity extends Activity {
                                     {
                                         //make new straight and init first and last coordinate
                                         Figure newFigure = new MyStraight(new vector3(normalizedX, normalizedY, 0),
-                                                new vector3(normalizedX, normalizedY, 0), new vector3(0, 0, 0));
+                                                new vector3(normalizedX, normalizedY, 0), color);
 
                                         //add straight to figure list
                                         myGLRenderer.addFigure(newFigure);
